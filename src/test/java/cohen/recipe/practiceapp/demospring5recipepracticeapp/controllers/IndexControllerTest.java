@@ -25,6 +25,7 @@ import cohen.recipe.practiceapp.demospring5recipepracticeapp.services.RecipeServ
 
 public class IndexControllerTest {
 
+    
     @Mock
     RecipeService recipeService;
 
