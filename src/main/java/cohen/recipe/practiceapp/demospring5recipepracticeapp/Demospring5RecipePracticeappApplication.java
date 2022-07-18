@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Demospring5RecipePracticeappApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(Demospring5RecipePracticeappApplication.class, args);
+
 	}
 
 }

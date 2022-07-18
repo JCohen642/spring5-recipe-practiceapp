@@ -6,5 +6,7 @@ import cohen.recipe.practiceapp.demospring5recipepracticeapp.domain.Recipe;
 
 public interface RecipeService{
     Set<Recipe> getRecipes();
+
+    Recipe findById(Long l);
     
 }
