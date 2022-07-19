@@ -1,4 +1,7 @@
 package cohen.recipe.practiceapp.demospring5recipepracticeapp.services;
+import cohen.recipe.practiceapp.demospring5recipepracticeapp.commands.RecipeCommand;
+import cohen.recipe.practiceapp.demospring5recipepracticeapp.converters.RecipeCommandToRecipe;
+import cohen.recipe.practiceapp.demospring5recipepracticeapp.converters.RecipeToRecipeCommand;
 import cohen.recipe.practiceapp.demospring5recipepracticeapp.domain.Recipe;
 import cohen.recipe.practiceapp.demospring5recipepracticeapp.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +19,14 @@ import java.util.Set;
 public class RecipeServiceImpl implements RecipeService{
 
     private final RecipeRepository recipeRepository;
-
-    public RecipeServiceImpl(RecipeRepository recipeRepository){
+    private final RecipeCommandToRecipe recipeCommandToRecipe;
+    private final RecipeToRecipeCommand recipeToRecipeCommand;
+    
+    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeCommandToRecipe recipeCommandToRecipe,
+            RecipeToRecipeCommand recipeToRecipeCommand) {
         this.recipeRepository = recipeRepository;
+        this.recipeCommandToRecipe = recipeCommandToRecipe;
+        this.recipeToRecipeCommand = recipeToRecipeCommand;
     }
 
     @Override
@@ -40,5 +48,15 @@ public class RecipeServiceImpl implements RecipeService{
         }
 
         return recipeOptional.get();
+    }
+
+    @Override
+    public RecipeCommand saveRecipeCommand(RecipeCommand command){
+        Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
+        
+        Recipe savedRecipe = recipeRepository.save(detachedRecipe);
+        log.debug("Saved RecipeId:" + savedRecipe.getId());
+        return recipeToRecipeCommand.convert(savedRecipe);
+
     }
 }
